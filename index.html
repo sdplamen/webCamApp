@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mouse and Webcam Data</title>
+</head>
+<body>
+    <h1>Mouse and Webcam Data</h1>
+    <div id="serialData"></div>
+    <div id="webcamImage"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.4/socket.io.js"></script>
+    <script>
+        var socket = io.connect('http://' + document.domain + ':' + location.port);
+
+        socket.on('serial_data', function(data) {
+            document.getElementById('serialData').innerHTML = 'Mouse Coordinates: ' + data.coordinates;
+        });
+
+        socket.on('webcam_image', function(data) {
+            var image = new Image();
+            image.src = '/' + data.image_path;
+            document.getElementById('webcamImage').innerHTML = 'Webcam Image: ';
+            document.getElementById('webcamImage').appendChild(image);
+        });
+    </script>
+</body>
+</html>
